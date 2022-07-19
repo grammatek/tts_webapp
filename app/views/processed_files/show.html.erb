@@ -1,0 +1,11 @@
+<h1><%= @processed_file.name %></h1>
+<p><%= @processed_file.snippet %></p>
+<p><%= @processed_file.text_file.filename %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_processed_file_path(@processed_file) %></li>
+  <li><%= link_to "Destroy", processed_file_path(@processed_file), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  }%></li>
+</ul>

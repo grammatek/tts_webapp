@@ -1,0 +1,15 @@
+-# app/views/layouts/application.html.slim
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    title Moments
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+
+    -# I'm loading dropzone css here as a muppet. Feel free to place it to sprocket asset folder or use content_for tag
+    link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"
+  body

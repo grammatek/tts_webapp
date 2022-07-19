@@ -1,0 +1,12 @@
+<h1>Processed Files</h1>
+
+<ul>
+  <% @processed_files.each do |file| %>
+    <li>
+      <%= link_to file.name, file %>
+      <%= file.text_file.filename %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "New File", new_processed_file_path %>
