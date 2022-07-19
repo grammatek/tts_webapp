@@ -14,8 +14,13 @@ class FileProcessingJob < ApplicationJob
     @processed_file.snippet = snippet
     @processed_file.save
 
+    call_tts(complete_text)
+
   end
 
+  def call_tts(text)
+    TtsService.call(text, "html")
+  end
   private
 
   def ensure_utf8(text)

@@ -90,6 +90,10 @@ GEM
       reline (>= 0.3.1)
     digest (3.1.0)
     erubi (1.10.0)
+    faraday (2.3.0)
+      faraday-net_http (~> 2.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (2.0.3)
     foreman (0.87.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -104,6 +108,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json (2.6.2)
     loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -171,6 +176,7 @@ GEM
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
+    ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     selenium-webdriver (4.3.0)
       childprocess (>= 0.5, < 5.0)
@@ -224,9 +230,11 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  faraday
   foreman (~> 0.87.2)
   importmap-rails
   jbuilder
+  json
   puma (~> 5.0)
   rails (~> 7.0.3, >= 7.0.3.1)
   redis
