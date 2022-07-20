@@ -6,11 +6,13 @@ class TtsService < ApplicationService
 @@tts_url = 'http://127.0.0.1:8000/v0/speech'
 # max chars allowed in input text (for now)
 @@max_chars = 10000
+@@tmp_audio_path = "./app/assets/audio/"
 
-  def initialize(text, format)
+  def initialize(text, format, filename)
     text4json = preprocess(text)
     if valid?(text4json)
       @request_data = init_request_data(text, format)
+      @audio_out = @@tmp_audio_path + filename + ".mp3"
     end
   end
 
@@ -21,7 +23,9 @@ class TtsService < ApplicationService
       headers: {'Content-Type' => 'application/json'}
     )
     response = conn.post('', @request_data)
+    write_audio(response)
     p "Successful? #{response.status}"
+    @audio_out
   end
 
 private
@@ -48,6 +52,12 @@ private
       return false
     end
     true
+  end
+
+  def write_audio(response)
+    File.open(@audio_out, 'wb') do |f|
+      f.write(response.body)
+    end
   end
 
 end

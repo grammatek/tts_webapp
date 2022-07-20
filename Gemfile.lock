@@ -68,9 +68,15 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    autoprefixer-rails (10.4.7.0)
+      execjs (~> 2)
     bindex (0.8.1)
     bootsnap (1.12.0)
       msgpack (~> 1.2)
+    bootstrap (5.2.0)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.11.5, < 3)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     capybara (3.37.1)
       addressable
@@ -90,10 +96,12 @@ GEM
       reline (>= 0.3.1)
     digest (3.1.0)
     erubi (1.10.0)
+    execjs (2.8.1)
     faraday (2.3.0)
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.3)
+    ffi (1.15.5)
     foreman (0.87.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -137,6 +145,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.7-x86_64-darwin)
       racc (~> 1.4)
+    popper_js (2.11.5)
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
@@ -178,6 +187,14 @@ GEM
     rexml (3.2.5)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (4.3.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -199,12 +216,12 @@ GEM
       railties (>= 6.0.0)
     strscan (3.0.3)
     thor (1.2.1)
+    tilt (2.0.10)
     timeout (0.3.0)
-    turbo-rails (1.1.1)
+    turbo-rails (1.0.1)
       actionpack (>= 6.0.0)
-      activejob (>= 6.0.0)
       railties (>= 6.0.0)
-    tzinfo (2.0.4)
+    tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
@@ -228,6 +245,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap (~> 5.2)
   capybara
   debug
   faraday
@@ -238,12 +256,13 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.3, >= 7.0.3.1)
   redis
+  sassc-rails
   selenium-webdriver
   sidekiq
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
-  turbo-rails
+  turbo-rails (~> 1.0.0)
   tzinfo-data
   web-console
   webdrivers

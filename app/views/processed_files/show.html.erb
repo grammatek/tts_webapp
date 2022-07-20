@@ -1,11 +1,22 @@
 <h1><%= @processed_file.name %></h1>
 <p><%= @processed_file.snippet %></p>
-<p><%= @processed_file.text_file.filename %></p>
+<p>Textagerð: <%=@processed_file.text_type %></p>
 
+<% if @processed_file.audio_file.attached? %>
+<audio id="player" controls src=<%= rails_blob_path(@processed_file.audio_file, disposition: 'attachment') %>></audio>
+  <% else %>
+  <p>Hljóðskrá ekki fyrir hendi</p>
+<% end %>
 <ul>
-  <li><%= link_to "Edit", edit_processed_file_path(@processed_file) %></li>
-  <li><%= link_to "Destroy", processed_file_path(@processed_file), data: {
+  <% if @processed_file.audio_file.attached? %>
+    <%= link_to "Sækja hljóðskrá", rails_blob_path(@processed_file.audio_file, disposition: 'attachment'), method: :download %>
+  <% end %>
+  <% if @processed_file.text_file.attached? %>
+    <%= link_to "Sækja textaskjal",  rails_blob_path(@processed_file.text_file, disposition: 'attachment'), method: :download %>
+  <% end %>
+
+  <li><%= link_to "Eyða", processed_file_path(@processed_file), data: {
     turbo_method: :delete,
-    turbo_confirm: "Are you sure?"
+    turbo_confirm: "Ertu viss?"
   }%></li>
 </ul>

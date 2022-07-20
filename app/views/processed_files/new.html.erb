@@ -1,2 +1,37 @@
-<h1>New file for TTS</h1>
+<div class="intro">
+<h1>Texti í tal</h1>
+  <p>Hér geturðu hlaðið upp textaskjölum og látið talgervil framleiða hljóðskrár úr þeim.</p>
+</div>
 <%= render "form", processed_file: @processed_file %>
+
+<div class="database">
+  <div class="db-title">
+<h1>Skjöl og hljóðskrár í gagnagrunni</h1>
+  </div>
+<table>
+  <% @processed_files.each do |file| %>
+    <tr>
+      <td><%= link_to file.name, file %></td>
+      <td><%= file.snippet %></td>
+
+      <td><% if file.audio_file.attached? %>
+        <a href=<%= rails_blob_path(file.audio_file, disposition: 'attachment') %>>Sækja hljóðskrá</a></td>
+        <!-- causes a routing error when called from here (works fine in show) -->
+        <%#= button_to "Sækja hljóðskrá",  rails_blob_path(file.audio_file, disposition: 'attachment'), method: :download %>
+          <% else %>
+          <p>Hljóðskrá ekki fyrir hendi</p>
+
+      <% end %></td>
+     <td><% if file.text_file.attached? %>
+        <a href=<%= rails_blob_path(file.text_file, disposition: 'attachment') %>>Sækja textaskjal</a>
+        <%#= button_to "Sækja textaskjal",  rails_blob_path(file.text_file, disposition: 'attachment'), method: :download %>
+      <% end %></td>
+        <td> <% if file.audio_file.attached? %>
+        <audio id="player" controls src=<%= rails_blob_path(file.audio_file, disposition: 'attachment') %>></audio>
+      <% else %>
+        <p>Hljóðskrá ekki fyrir hendi</p>
+      <% end %></td>
+        </tr>
+  <% end %>
+</table>
+</div>

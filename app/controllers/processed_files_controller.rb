@@ -1,4 +1,7 @@
 class ProcessedFilesController < ApplicationController
+  skip_before_action :verify_authenticity_token
+  protect_from_forgery with: :null_session
+
   def index
     @processed_files = ProcessedFile.all
   end
@@ -8,6 +11,7 @@ class ProcessedFilesController < ApplicationController
   end
 
   def new
+    @processed_files = ProcessedFile.all
     @processed_file = ProcessedFile.new
   end
 
@@ -16,7 +20,7 @@ class ProcessedFilesController < ApplicationController
 
     if @processed_file.save
       trigger_job
-      redirect_to @processed_file
+      redirect_to root_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -50,6 +54,6 @@ class ProcessedFilesController < ApplicationController
 
   private
   def file_params
-    params.require(:processed_file).permit(:name, :snippet, :text_file)
+    params.require(:processed_file).permit(:name, :snippet, :text_type, :text_file)
   end
 end
