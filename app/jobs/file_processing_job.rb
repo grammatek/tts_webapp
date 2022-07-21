@@ -8,12 +8,6 @@ class FileProcessingJob < ApplicationJob
     file_content = @processed_file.text_file.download
     complete_text = ensure_utf8(file_content)
     snippet = extract_snippet(complete_text)
-    ActionCable.server.broadcast "notifications", {html:
-                                                                "<div class='alert alert-warning alert-block text-center'>
-        <i class='fa fa-circle-o-notch fa-spin'></i>
-        talgervill er að framleiða hljóðskrá fyrir #{filename}.
-    </div>"
-    }
 
     p "Processing file: #{filename}, snippet: #{snippet}, type: #{@processed_file.text_type}"
     @processed_file.name = filename
@@ -25,11 +19,6 @@ class FileProcessingJob < ApplicationJob
 
     @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
     FileUtils.rm_f(audio_file)
-    ActionCable.server.broadcast "notifications", {html:
-                                                                "<div class='alert alert-success alert-block text-center'>
-        Hljóðskrá tilbúin!
-     </div>"
-      }
 
   end
 

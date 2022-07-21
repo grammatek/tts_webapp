@@ -1,6 +1,6 @@
 class ProcessedFilesController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  protect_from_forgery with: :null_session
+  #skip_before_action :verify_authenticity_token
+  #protect_from_forgery with: :null_session
 
   def index
     @processed_files = ProcessedFile.all

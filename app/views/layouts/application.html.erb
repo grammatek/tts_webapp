@@ -9,10 +9,11 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" type="text/css">
     <%= javascript_importmap_tags %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+
   </head>
 
   <body>
     <%= yield %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
   </body>
 </html>
