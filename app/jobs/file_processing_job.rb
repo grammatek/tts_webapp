@@ -20,6 +20,21 @@ class FileProcessingJob < ApplicationJob
     @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
     FileUtils.rm_f(audio_file)
 
+    #sleep 5
+    #p "broadcasting ..."
+    #Turbo::StreamsChannel.broadcast_stream_to(@processed_file,
+    #          content: ApplicationController.render(:turbo_stream,
+    #            partial: "processed_files/processed_file",
+    #  locals: {processed_file: @processed_file}))
+
+    #ActionCable.server.broadcast "processed_files:#{}"
+
+    #ProcessedFilesController.render(partial: 'processed_files/processed_file', locals: { processed_file: @processed_file})
+    #@processed_file.broadcast_replace_to(:create, @processed_file)
+
+    #p "============ UPDATED FILE ===================="
+    #broadcasts_to -> (processed_file) { "processed_files" }, inserts_by: :prepend
+
   end
 
   def call_tts(text, format, filename)

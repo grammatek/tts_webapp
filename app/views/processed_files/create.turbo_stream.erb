@@ -1,0 +1,5 @@
+<%= turbo_stream.prepend "processed_files", @processed_file %>
+<%= turbo_stream.update ProcessedFile.new, "" %>
+<%#= turbo_stream.replace(@processed_file) do %>
+<%#= render @processed_file %>
+<%# end %>

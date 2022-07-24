@@ -2,7 +2,7 @@
 
   <div>
     <div class="dropzone dropzone-default dz-clickable" data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1">
-    <%= form.file_field :text_file, direct_upload: true, data: {target: 'dropzone.input' } %>
+    <%= form.file_field :text_file, direct_upload: true, data: { target: 'dropzone.input' } %>
       <div class="dropzone-msg dz-message needsclick text-gray-600">
         <h3 class="dropzone-msg-title">Dragðu skjal hingað eða smelltu til þess að hlaða upp skjali</h3>
         <span class="dropzone-msg-desc text-sm">Skjalið má ekki vera stærra en 10 KB. Veldu gerð textaskjals hér til hliðar (texti eða HTML)</span>
@@ -14,8 +14,6 @@
     <%= form.select :text_type, ProcessedFile.text_types.keys, {}, class: "dropdown_select" %>
   </div>
   <div class="submit">
-    <%= form_with url: processed_files_trigger_job_path do |f| %>
-    <%= f.submit 'Senda á talgervil', class: "btn btn-primary submit_button" %>
-      <% end %>
+    <%= form.submit 'Senda á talgervil', class: "btn btn-primary submit_button" %>
   </div>
 <% end %>
