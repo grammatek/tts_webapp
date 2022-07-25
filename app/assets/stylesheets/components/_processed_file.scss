@@ -1,6 +1,7 @@
 .processed_file {
   display: flex;
-  justify-content: space-between;
+  //justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: var(--space-s);
 
@@ -20,4 +21,8 @@
     align-self: flex-start;
     gap: var(--space-xs);
   }
+}
+.item {
+  flex: 0 1 250px;
+  text-align: left;
 }

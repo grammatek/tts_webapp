@@ -2,10 +2,23 @@
 <main class="container">
 <div class="header">
   <h1>Texti í tal</h1>
-  <%= link_to "nýtt skjal", new_processed_file_path, class: "btn btn--primary", data: { turbo_frame: dom_id(ProcessedFile.new) } %>
 </div>
+  <div class="header">
+    <p>Hér geturðu hlaðið upp textaskjali á <strong>plain-text</strong> formi eða <strong>html</strong> formi. <br> Skjalið er keyrt í gegnum <strong>opinn íslenskan talgervil</strong>
+      og eftir keyrslu getur þú hlaðið hljóðskránni niður og/eða hlustað í vafranum.</p>
+  </div>
+  <div class="header">
+    <%= link_to "nýtt skjal", new_processed_file_path, class: "btn btn--primary", data: { turbo_frame: dom_id(ProcessedFile.new) } %>
+  </div>
 
 <%= turbo_frame_tag ProcessedFile.new %>
+  <hr />
+  <div class="header">
+    <h1>Skjöl og hljóðskrár í gagnagrunni</h1>
+  </div>
+  <div class="header">
+  <p>Taflan sýnir tíu nýjustu skjölin í gagnagrunninum.</p>
+  </div>
 <%= turbo_frame_tag "processed_files" do %>
 <%= render @processed_files %>
 <% end %>

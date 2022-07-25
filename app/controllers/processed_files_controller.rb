@@ -4,7 +4,7 @@ class ProcessedFilesController < ApplicationController
   before_action :set_processed_file, only: [:show, :edit, :update, :destroy]
 
   def index
-    @processed_files = ProcessedFile.ordered
+    @processed_files = ProcessedFile.ordered[0, 10]
   end
 
   def show
@@ -12,20 +12,20 @@ class ProcessedFilesController < ApplicationController
   end
 
   def new
-    #@processed_files = ProcessedFile.all
     @processed_file = ProcessedFile.new
+    @processed_files = ProcessedFile.ordered[0, 10]
   end
 
   def create
     @processed_file = ProcessedFile.new(file_params)
 
     if @processed_file.save
-      #trigger_job
+      trigger_job(@processed_file)
       respond_to do |format|
-        format.html {redirect_to processed_files_path, notice: "Nýtt skjal sent í talgervingu"}
+        format.html {redirect_to root_path, notice: "Nýtt skjal sent í talgervingu"}
         format.turbo_stream
       end
-      trigger_job(@processed_file)
+
     else
       render :new, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class ProcessedFilesController < ApplicationController
 
   def update
     if @processed_file.update(quote_params)
-      redirect_to processed_files_path, notice: "Uppfærði skjal"
+      redirect_to root_path, notice: "Uppfærði skjal"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -52,7 +52,6 @@ class ProcessedFilesController < ApplicationController
 
   # Jobs
   def trigger_job(processed_file)
-    p "going to process #{processed_file.name}"
     FileProcessingJob.perform_later(processed_file.id)
   end
 

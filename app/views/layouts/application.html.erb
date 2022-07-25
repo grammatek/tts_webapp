@@ -11,9 +11,15 @@
     <%= javascript_importmap_tags %>
 
   </head>
+  <header>
+    <%= render "layouts/header" %>
+  </header>
 
   <body>
     <%= yield %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
   </body>
+<footer>
+  <%= render "layouts/footer" %>
+</footer>
 </html>

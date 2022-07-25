@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  root "processed_files#index"
-  #root "processed_files#new"
+  #root "processed_files#index"
+  root "processed_files#new"
   post "processed_files/trigger_job"
   post "processed_files/play"
   resources :processed_files

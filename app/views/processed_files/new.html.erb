@@ -1,11 +1,24 @@
+<%= turbo_stream_from "processed_files" %>
 <main class="container">
-  <%= link_to sanitize("&larr; Back to quotes"), processed_files_path %>
-
   <div class="header">
-    <h1>Nýtt skjal</h1>
+    <h1>Texti í tal</h1>
   </div>
-
-  <%= turbo_frame_tag @processed_file do %>
+  <div class="header">
+    <p>Hér geturðu hlaðið upp textaskjali á <strong>plain-text</strong> formi eða <strong>html</strong> formi. <br> Skjalið er keyrt í gegnum <strong>opinn íslenskan talgervil</strong>
+      og eftir keyrslu getur þú hlaðið hljóðskránni niður og/eða hlustað í vafranum.</p>
+  </div>
+  <%#= turbo_frame_tag @processed_file do %>
     <%= render "form", processed_file: @processed_file %>
+  <%# end %>
+
+  <hr />
+  <div class="header">
+    <h1>Skjöl og hljóðskrár í gagnagrunni</h1>
+  </div>
+  <div class="header">
+    <p>Taflan sýnir tíu nýjustu skjölin í gagnagrunninum.</p>
+  </div>
+  <%= turbo_frame_tag "processed_files" do %>
+    <%= render @processed_files %>
   <% end %>
 </main>

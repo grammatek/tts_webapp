@@ -20,8 +20,8 @@
 
   &--primary {
     color: var(--color-white);
-    background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
-
+    //background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
+    background-color: var(--color-secondary);
     &:hover,
     &:focus,
     &:focus-within,

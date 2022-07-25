@@ -34,10 +34,18 @@
   --color-text-muted: hsl(0, 1%, 44%);
 
   // Application colors
-  --color-primary: hsl(350, 67%, 50%);
+ /* --color-primary: hsl(350, 67%, 50%);
   --color-primary-rotate: hsl(10, 73%, 54%);
   --color-primary-bg: hsl(0, 85%, 96%);
   --color-secondary: hsl(101, 45%, 56%);
+  --color-secondary-rotate: hsl(120, 45%, 56%);
+  --color-tertiary: hsl(49, 89%, 64%);
+  --color-glint: hsl(210, 100%, 82%);*/
+
+  --color-primary: #DB4914;
+  --color-primary-rotate: #EA5035;;
+  --color-primary-bg: hsl(30, 50%, 98%);
+  --color-secondary: #3A86FF;
   --color-secondary-rotate: hsl(120, 45%, 56%);
   --color-tertiary: hsl(49, 89%, 64%);
   --color-glint: hsl(210, 100%, 82%);
