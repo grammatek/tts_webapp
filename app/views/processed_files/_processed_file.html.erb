@@ -1,10 +1,8 @@
-<%#= turbo_stream_from "single_processed_file" %>
 <%= turbo_frame_tag processed_file do %>
 <div class="processed_file">
   <span class="item">
   <%= link_to processed_file.name, processed_file_path(processed_file), data: {turbo_frame: "_top"} %>
   </span>
-  <%#= processed_file.snippet %>
   <span class="item">
   <% if processed_file.audio_file.attached? %>
     <a href=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %>>Sækja hljóðskrá</a>
@@ -24,6 +22,5 @@
     <p></p>
   <% end %>
     </span>
-
 </div>
 <% end %>

@@ -16,28 +16,8 @@
   <div id="submit" class="submit">
     <%= form.submit 'Senda á talgervil', class: "btn btn--primary" %>
   </div>
-  <script type="text/javascript">
-      //import {Dropzone} from "dropzone";
-      document.getElementById("submit").addEventListener("click", function(event) {
-          import {Dropzone} from "dropzone";
-          let my_dz = Dropzone.forElement("#filedrop");
-          my_dz.removeAllFiles();
-          console.log("This is my_dz: " + my_dz.toString());
-          //my_dz.empty();
-          //$('.dz-preview').empty();
-          //$('.dz-message').show();
-          //event.preventDefault();
-       //   alert("hello!");
-      });
 
-      // JQuery - we don't have that ...
-      /*
-      $(function () {
-          $("#submit").click(function (e) {
-              $('.dz-preview').empty();
-              $('.dz-message').show();
-          });
-      });*/
-  </script>
 
 <% end %>
+
+
