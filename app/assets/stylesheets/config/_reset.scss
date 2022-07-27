@@ -45,7 +45,8 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--color-primary);
+  //color: var(--color-primary);
+  color: var(--color-text-body);
   line-height: var(--line-height-headers);
 }
 
@@ -66,7 +67,8 @@ h4 {
 }
 
 a {
-  color: var(--color-text-body);
+  //color: var(--color-text-body);
+  color: var(--color-secondary);
   text-decoration: none;
   transition: color 200ms;
 

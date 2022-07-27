@@ -6,6 +6,7 @@
   background-color: transparent;
   border: solid 2px transparent;
   font-weight: bold;
+  font-size: var(--font-size-l);
   text-decoration: none;
   cursor: pointer;
   outline: none;
@@ -18,10 +19,14 @@
     transition: filter 250ms, color 200ms;
   }
 
+  &:disabled {
+    background-color: var(--color-light);
+  }
+
   &--primary {
     color: var(--color-white);
     //background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
-    background-color: var(--color-secondary);
+    background-color: var(--color-tertiary);
     &:hover,
     &:focus,
     &:focus-within,
@@ -33,7 +38,7 @@
 
   &--secondary {
     color: var(--color-white);
-    background-image: linear-gradient(to right, var(--color-secondary), var(--color-secondary-rotate));
+    background-color: var(--color-primary);
 
     &:hover,
     &:focus,

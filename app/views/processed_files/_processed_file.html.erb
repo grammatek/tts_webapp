@@ -1,18 +1,20 @@
 <%= turbo_frame_tag processed_file do %>
 <div class="processed_file">
   <span class="item">
-  <%= link_to processed_file.name, processed_file_path(processed_file), data: {turbo_frame: "_top"} %>
-  </span>
-  <span class="item">
-  <% if processed_file.audio_file.attached? %>
-    <a href=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %>>Sækja hljóðskrá</a>
-  <% else %>
-    <p>Er að framleiða hljóðskrá ...</p>
-  <% end %>
+  <%= link_to processed_file.name, processed_file_path(processed_file), data: {turbo_frame: processed_file} %>
   </span>
   <span class="item">
   <% if processed_file.text_file.attached? %>
     <a href=<%= rails_blob_path(processed_file.text_file, disposition: 'attachment') %>>Sækja textaskjal</a>
+  <% end %>
+  </span>
+  <span class="item">
+  <% if processed_file.audio_file.attached? %>
+    <a href=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %>>Sækja hljóðskrá</a>
+    <% else %><div>Framleiði hljóðskrá ...</div>
+     <div class="loadingio-spinner-rolling-zjitovhqhco"><div class="ldio-qdggygikf2">
+<div></div>
+</div></div>
   <% end %>
   </span>
   <span class="item">

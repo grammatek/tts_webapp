@@ -26,3 +26,34 @@
   flex: 0 1 250px;
   text-align: left;
 }
+
+.processed_file_about {
+  display: flex;
+  //justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-s);
+
+  background-color: var(--color-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-small);
+  margin-bottom: var(--space-m);
+  padding: var(--space-xs);
+
+  //@include media(tabletAndUp) {
+  //  padding: var(--space-xs) var(--space-m);
+  //}
+
+  &__actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    gap: var(--space-xs);
+  }
+}
+
+.item_snippet {
+  flex: 0 1 250px;
+  text-align: left;
+  font-size: var(--font-size-s);
+}

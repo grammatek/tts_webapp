@@ -1,11 +1,12 @@
 <%= turbo_stream_from "processed_files" %>
 <main class="container">
   <div class="header">
-    <h1>Texti í tal</h1>
+    <h1>Talgervill fyrir textaskjöl</h1>
   </div>
-  <div class="header">
+  <div class="header header-text">
     <p>Hér geturðu hlaðið upp textaskjali á <strong>plain-text</strong> formi eða <strong>html</strong> formi. <br> Skjalið er keyrt í gegnum <strong>opinn íslenskan talgervil</strong>
-      og eftir keyrslu getur þú hlaðið hljóðskránni niður og/eða hlustað í vafranum.</p>
+      og eftir keyrslu getur þú hlaðið hljóðskránni niður og/eða hlustað í vafranum. <br> Framleiðsla hljóðskrár getur tekið örlítinn tíma
+      en hljóðskrá og spilari birtast í töflunni hér fyrir neðan um leið og hljóðskráin er tilbúin.</p>
   </div>
   <%#= turbo_frame_tag @processed_file do %>
     <%= render "form", processed_file: @processed_file %>
@@ -15,7 +16,7 @@
   <div class="header">
     <h1>Skjöl og hljóðskrár í gagnagrunni</h1>
   </div>
-  <div class="header">
+  <div class="header header-text">
     <p>Taflan sýnir tíu nýjustu skjölin í gagnagrunninum.</p>
   </div>
   <%= turbo_frame_tag "processed_files" do %>

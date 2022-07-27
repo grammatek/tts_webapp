@@ -14,7 +14,7 @@
     <%= form.select :text_type, ProcessedFile.text_types.keys, {}, class: "dropdown_select" %>
   </div>
   <div id="submit" class="submit">
-    <%= form.submit 'Senda á talgervil', class: "btn btn--primary" %>
+    <%= form.submit 'Senda á talgervil', disabled: true, class: "btn btn--primary" %>
   </div>
 
 

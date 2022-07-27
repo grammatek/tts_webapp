@@ -44,10 +44,11 @@ class ProcessedFilesController < ApplicationController
   end
 
   def destroy
-    @processed_file = ProcessedFile.find(params[:id])
     @processed_file.destroy
-
-    redirect_to root_path, status: :see_other
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: "File was successfully destroyed."}
+      format.turbo_stream
+    end
   end
 
   # Jobs
