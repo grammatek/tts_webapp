@@ -1,44 +1,34 @@
 import { Dropzone } from "dropzone";
 
-window.onload = function() {
-    $("input[type=submit]").prop("disabled", true);
-}
-/*window.onload = function() {
-    document.getElementById("submit").addEventListener("click", function (event) {
-        Dropzone.forElement('#filedrop').removeAllFiles(true);
-        $('.dz-preview').empty();
-        $('.dz-message').show();
-        event.initEvent();
-    });
-}*/
+/*
+Since the application should be ready for a new document after each upload, we need to control
+when dropzone clears the input field and when the submit button is enabled/disabled.
+Here, we add a listener to the submit button that includes a timeout, i.e. we want to ensure the default
+submit action is performed before Dropzone clears the field, causing the input file to be removed.
+The automatic enabling of the submit button is done in the start() function of the DirectUploadController,
+see controllers/dropzone_controller.js, each time a "success" is registered for a file upload, the submit button
+gets enabled.
+ */
 
-//const submitButton = document.querySelector("#submit");
-//submitButton.disabled = true;
-/*
-submitButton.click(function () {
-    $('.dz-preview').empty();
-    $('.dz-message').show();
-    Dropzone.forElement('#filedrop').removeAllFiles();
-});*/
-/*
-submitButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    $('.dz-preview').empty();
-    $('.dz-message').show();
-    Dropzone.forElement('#filedrop').removeAllFiles();
-});*/
-/*
-let input_form = document.querySelector("#filedrop");
-input_form.addEventListener("change", stateHandle);
+const dropForm = document.getElementById("dropzone_form");
+const submitButton = document.getElementById('submit');
+// on load there are no files in the dropzone field, hence start with a disabled submit button
+submitButton.disabled = true;
 
-function stateHandle() {
-    //if (input_form.isEmpty()) {
-    if (input_form.value === "") {
-        submitButton.disabled = true;
-    } else {
-        submitButton.disabled = false;
-    }
-}
-*/
+dropForm.addEventListener('submit', (e)=>{
+    // The following checks after the timeout if files were already uploaded, if yes, clears the field and
+    // disables submit button, otherwise does nothing, leaving the "remove file" to the user.
+    setTimeout(()=>{
+        //console.log('accepted files: ' + Dropzone.forElement('#filedrop').getAcceptedFiles().length);
+        if (Dropzone.forElement('#filedrop').getAcceptedFiles().length > 0) {
+            Dropzone.forElement('#filedrop').removeAllFiles();
+            $('.dz-preview').empty();
+            $('.dz-message').show();
+            submitButton.disabled = true;
+        }
+    },1000)
+})
+
+
 
 

@@ -25,7 +25,6 @@ class ProcessedFilesController < ApplicationController
         format.html {redirect_to root_path, notice: "Nýtt skjal sent í talgervingu"}
         format.turbo_stream
       end
-
     else
       render :new, status: :unprocessable_entity
     end
@@ -63,6 +62,6 @@ class ProcessedFilesController < ApplicationController
   end
 
   def file_params
-    params.require(:processed_file).permit(:name, :snippet, :text_type, :text_file)
+    params.require(:processed_file).permit(:name, :snippet, :text_file, :text_type)
   end
 end

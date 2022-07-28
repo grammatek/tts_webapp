@@ -1,4 +1,4 @@
-<%= form_with model: processed_file do |form| %>
+<%= form_with model: processed_file, id: "dropzone_form" do |form| %>
 
   <div>
     <div id="filedrop" class="dropzone dropzone-default dz-clickable" data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1">
@@ -13,10 +13,9 @@
     <%= form.label "Gerð textaskjals" %>
     <%= form.select :text_type, ProcessedFile.text_types.keys, {}, class: "dropdown_select" %>
   </div>
-  <div id="submit" class="submit">
-    <%= form.submit 'Senda á talgervil', disabled: true, class: "btn btn--primary" %>
+  <div class="submit_div">
+    <%= form.submit 'Senda á talgervil', id: "submit", class: "submit btn btn--primary" %>
   </div>
-
 
 <% end %>
 
