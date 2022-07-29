@@ -1,5 +1,5 @@
 class ProcessedFile < ApplicationRecord
-  enum text_type: [:html, :text]
+  enum text_type: [:html, :text, :pdf]
   has_one_attached :text_file
   has_one_attached :audio_file
 

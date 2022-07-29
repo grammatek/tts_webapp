@@ -1,24 +1,28 @@
-# README
+# Skjalalestur - Icelandic TTS for Documents 
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**Skjalalestur** is a Ruby on Rails application for Icelandic Text-to-Speech. It produces audio files with generated 
+speech from uploaded documents.
+The application allows the user to download .mp3 audio files and/or to play the audio directly in the browser.
 
-Things you may want to cover:
+## Prerequisites
 
-* Ruby version
+Ruby 3.0 or later
 
-* System dependencies
+Rails 7.0.3. or later
 
-* Configuration
+Access to a REST-ful TTS-web service
 
-* Database creation
+Access to a storage service like Amazon S3, Google GCS, AzureStorage or similar.
 
-* Database initialization
+## Contributing
 
-* How to run the test suite
+You can contribute to this project by forking it, creating a branch and opening a new
+[pull request](https://github.com/grammatek/simaromur/pulls).
 
-* Services (job queues, cache servers, search engines, etc.)
+## License
 
-* Deployment instructions
+This software is licensed under the [Apache License](LICENSE), Copyright © 2022 Grammatek ehf
 
-* ...
+This software is developed under the auspices of the Icelandic Government 5-Year Language Technology Program, described
+[here](https://www.stjornarradid.is/lisalib/getfile.aspx?itemid=56f6368e-54f0-11e7-941a-005056bc530c) and
+[here](https://clarin.is/media/uploads/mlt-en.pdf) (English).
