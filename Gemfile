@@ -57,7 +57,8 @@ gem "json"
 
 gem "bootstrap", "~> 5.2"
 
-gem 'rollbar', '~> 2.11', '>= 2.11.5'
+gem 'pdf-reader'
+gem 'docx'
 
 
 group :development, :test do

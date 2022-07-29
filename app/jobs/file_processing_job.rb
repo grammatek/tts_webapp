@@ -3,19 +3,24 @@ class FileProcessingJob < ApplicationJob
   queue_as :default
 
   def perform(file_id)
-    @processed_file = ProcessedFile.find(file_id)
-    filename = @processed_file.text_file.filename
-    file_content = @processed_file.text_file.download
-    complete_text = ensure_utf8(file_content)
-    snippet = extract_snippet(complete_text)
-
-    p "Processing file: #{filename}, snippet: #{snippet}, type: #{@processed_file.text_type}"
-    @processed_file.name = filename
-    @processed_file.snippet = snippet
-    @processed_file.save
-
     begin
-      audio_file = call_tts(complete_text, @processed_file.text_type, @processed_file.name)
+      @processed_file = ProcessedFile.find(file_id)
+      filename = @processed_file.text_file.filename
+
+      if filename.to_s.ends_with?('.pdf')
+        file_content = extract_pdf(filename)
+      else
+        file_content = @processed_file.text_file.download
+      end
+      complete_text = ensure_utf8(file_content)
+      snippet = extract_snippet(complete_text)
+
+      p "Processing file: #{filename}, snippet: #{snippet}, type: #{@processed_file.text_type}"
+      @processed_file.name = filename
+      @processed_file.snippet = snippet
+      @processed_file.save
+      format = get_format(@processed_file.text_type)
+      audio_file = call_tts(complete_text, format, @processed_file.name)
       p audio_file
       @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
       FileUtils.rm_f(audio_file)
@@ -49,6 +54,36 @@ class FileProcessingJob < ApplicationJob
     end
     snippet
   end
+
+  def get_format(text_type)
+    if text_type == 'pdf'
+      text_type = 'text'
+    end
+    text_type
+  end
+
+  def extract_pdf(pdf_filename)
+    reader = PDF::Reader.new(pdf_filename)
+    content = []
+    reader.pages.each do |page|
+      content.append(page.text)
+    end
+    content.join(' ')
+  end
+
+=begin
+# This is not working yet, Docx::Document.open() throws an exception, not able to close a 'nil' object.
+  def extract_docx(docx_filename)
+    p "======= Processing docx ... =========="
+    doc = Docx::Document.open(docx_filename)
+    p "======== Created a docx ... =========="
+    content = []
+    doc.paragraphs.each do |para|
+      content.append(para)
+    end
+    content.join(' ')
+    end
+=end
 
   def extract_error_message(error_msg_obj)
     error_msg = error_msg_obj.inspect
