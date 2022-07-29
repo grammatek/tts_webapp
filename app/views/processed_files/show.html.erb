@@ -3,7 +3,7 @@
 
   <%= turbo_frame_tag @processed_file do %>
     <div class="processed_file_about">
-    <span class="item">
+    <span class="item_filename">
       <p><%= link_to @processed_file.name, new_processed_file_path %></p>
     </span>
       <span class="item_snippet">

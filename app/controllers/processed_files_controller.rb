@@ -52,7 +52,11 @@ class ProcessedFilesController < ApplicationController
 
   # Jobs
   def trigger_job(processed_file)
-    FileProcessingJob.perform_later(processed_file.id)
+    begin
+      FileProcessingJob.perform_later(processed_file.id)
+    rescue
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private

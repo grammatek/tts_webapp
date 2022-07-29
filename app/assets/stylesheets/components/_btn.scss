@@ -20,7 +20,15 @@
   }
 
   &:disabled {
-    background-color: var(--color-light);
+    background-color: #9bd2a1;
+    color: var(--color-light);
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      background-color: #9bd2a1;
+      color: var(--color-light);
+    }
   }
 
   &--primary {
@@ -30,9 +38,15 @@
     &:hover,
     &:focus,
     &:focus-within,
-    &:active {
+    &:active,
+    &:not(:disabled) {
       color: var(--color-white);
       filter: saturate(1.4) brightness(115%);
+    }
+    &:disabled {
+      background-color: #9bd2a1;
+      color: var(--color-light);
+      cursor: not-allowed;
     }
   }
 

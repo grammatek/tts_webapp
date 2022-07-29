@@ -1,7 +1,11 @@
 <%= turbo_frame_tag processed_file do %>
 <div class="processed_file">
   <span class="item">
-  <%= link_to processed_file.name, processed_file_path(processed_file), data: {turbo_frame: processed_file} %>
+    <% if processed_file.name? %>
+      <%= link_to processed_file.name[0,25], processed_file_path(processed_file), data: {turbo_frame: processed_file} %>
+    <% else %>
+      <%= link_to "Skjal í vinnslu", processed_file_path(processed_file), data: {turbo_frame: processed_file} %>
+    <% end %>
   </span>
   <span class="item">
   <% if processed_file.text_file.attached? %>
@@ -11,7 +15,9 @@
   <span class="item">
   <% if processed_file.audio_file.attached? %>
     <a href=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %>>Sækja hljóðskrá</a>
-    <% else %><div>Framleiði hljóðskrá ...</div>
+      <% elsif processed_file.error_message? %>
+      <div class="error-message"><%= processed_file.error_message %></div>
+    <% else %><div class="process-msg">Framleiði hljóðskrá ...</div>
      <div class="loadingio-spinner-rolling-zjitovhqhco"><div class="ldio-qdggygikf2">
 <div></div>
 </div></div>
@@ -21,7 +27,9 @@
   <% if processed_file.audio_file.attached? %>
     <audio id="player" controls src=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %>></audio>
   <% else %>
-    <p></p>
+    <span class="item">
+      <%= button_to "Hætta við", processed_file_path(processed_file), method: :delete, class: "btn btn--secondary" %>
+    </span>
   <% end %>
     </span>
 </div>

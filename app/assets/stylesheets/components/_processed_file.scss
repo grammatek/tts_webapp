@@ -29,8 +29,8 @@
 
 .processed_file_about {
   display: flex;
-  //justify-content: space-between;
-  justify-content: center;
+  justify-content: space-between;
+  //justify-content: center;
   align-items: center;
   gap: var(--space-s);
 
@@ -56,4 +56,12 @@
   flex: 0 1 250px;
   text-align: left;
   font-size: var(--font-size-s);
+}
+.item_filename {
+  flex: 0 1 250px;
+  text-align: left;
+  padding-left: var(--space-l);
+}
+.process-msg {
+  color: var(--color-tertiary);
 }
