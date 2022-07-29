@@ -125,6 +125,13 @@ class DirectUploadController {
             } else {
                 this.hiddenInput.value = attributes.signed_id;
                 this.emitDropzoneSuccess();
+                // added ABN: when a document has been uploaded, enable the submit button
+                const elem = document.getElementById('submit');
+                elem.disabled = false;
+                // TODO: implement correctly via acceptedFiles, set selected to be html if filename
+                //  ends with html, text otherwise
+                const dropdown = document.getElementById('dropdown_select');
+
             }
         });
     }

@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  //justify-content: space-between;
+  justify-content: center;
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-l);
+  text-align: center;
+
+ // @include media(tabetAndUp) {
+ //   margin-bottom: var(--space-xl);
+  //}
+}
+.header-text {
+  font-size: var(--font-size-l);
+}

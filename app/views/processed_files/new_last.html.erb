@@ -1,0 +1,11 @@
+<main class="container">
+  <%= link_to sanitize("&larr; Back to quotes"), processed_files_path %>
+
+  <div class="header">
+    <h1>Nýtt skjal</h1>
+  </div>
+
+  <%= turbo_frame_tag @processed_file do %>
+    <%= render "form", processed_file: @processed_file %>
+  <% end %>
+</main>

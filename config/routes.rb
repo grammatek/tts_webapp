@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  #root "processed_files#index"
   root "processed_files#new"
   post "processed_files/trigger_job"
   post "processed_files/play"

@@ -1,37 +1,25 @@
-<div class="intro">
-<h1>Texti í tal</h1>
-  <p>Hér geturðu hlaðið upp textaskjölum og látið talgervil framleiða hljóðskrár úr þeim.</p>
-</div>
-<%= render "form", processed_file: @processed_file %>
-
-<div class="database">
-  <div class="db-title">
-<h1>Skjöl og hljóðskrár í gagnagrunni</h1>
+<%= turbo_stream_from "processed_files" %>
+<main class="container">
+  <div class="header">
+    <h1>Talgervill fyrir textaskjöl</h1>
   </div>
-<table>
-  <% @processed_files.each do |file| %>
-    <tr>
-      <td><%= link_to file.name, file %></td>
-      <td><%= file.snippet %></td>
+  <div class="header header-text">
+    <p>Hér geturðu hlaðið upp textaskjali á <strong>plain-text</strong> formi eða <strong>html</strong> formi. <br> Skjalið er keyrt í gegnum <strong>opinn íslenskan talgervil</strong>
+      og eftir keyrslu getur þú hlaðið hljóðskránni niður og/eða hlustað í vafranum. <br> Framleiðsla hljóðskrár getur tekið örlítinn tíma
+      en hljóðskrá og spilari birtast í töflunni hér fyrir neðan um leið og hljóðskráin er tilbúin.</p>
+  </div>
+  <%#= turbo_frame_tag @processed_file do %>
+    <%= render "form", processed_file: @processed_file %>
+  <%# end %>
 
-      <td><% if file.audio_file.attached? %>
-        <a href=<%= rails_blob_path(file.audio_file, disposition: 'attachment') %>>Sækja hljóðskrá</a></td>
-        <!-- causes a routing error when called from here (works fine in show) -->
-        <%#= button_to "Sækja hljóðskrá",  rails_blob_path(file.audio_file, disposition: 'attachment'), method: :download %>
-          <% else %>
-          <p>Hljóðskrá ekki fyrir hendi</p>
-
-      <% end %></td>
-     <td><% if file.text_file.attached? %>
-        <a href=<%= rails_blob_path(file.text_file, disposition: 'attachment') %>>Sækja textaskjal</a>
-        <%#= button_to "Sækja textaskjal",  rails_blob_path(file.text_file, disposition: 'attachment'), method: :download %>
-      <% end %></td>
-        <td> <% if file.audio_file.attached? %>
-        <audio id="player" controls src=<%= rails_blob_path(file.audio_file, disposition: 'attachment') %>></audio>
-      <% else %>
-        <p>Hljóðskrá ekki fyrir hendi</p>
-      <% end %></td>
-        </tr>
+  <hr />
+  <div class="header">
+    <h1>Skjöl og hljóðskrár í gagnagrunni</h1>
+  </div>
+  <div class="header header-text">
+    <p>Taflan sýnir tíu nýjustu skjölin í gagnagrunninum.</p>
+  </div>
+  <%= turbo_frame_tag "processed_files" do %>
+    <%= render @processed_files %>
   <% end %>
-</table>
-</div>
+</main>

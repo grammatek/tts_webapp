@@ -1,22 +1,21 @@
-<h1><%= @processed_file.name %></h1>
-<p><%= @processed_file.snippet %></p>
-<p>Textagerð: <%=@processed_file.text_type %></p>
+<main class="container">
+  <%= link_to sanitize("&larr; Til baka á aðalsíðu"), new_processed_file_path %>
 
-<% if @processed_file.audio_file.attached? %>
-<audio id="player" controls src=<%= rails_blob_path(@processed_file.audio_file, disposition: 'attachment') %>></audio>
-  <% else %>
-  <p>Hljóðskrá ekki fyrir hendi</p>
-<% end %>
-<ul>
-  <% if @processed_file.audio_file.attached? %>
-    <%= link_to "Sækja hljóðskrá", rails_blob_path(@processed_file.audio_file, disposition: 'attachment'), method: :download %>
-  <% end %>
-  <% if @processed_file.text_file.attached? %>
-    <%= link_to "Sækja textaskjal",  rails_blob_path(@processed_file.text_file, disposition: 'attachment'), method: :download %>
-  <% end %>
+  <%= turbo_frame_tag @processed_file do %>
+    <div class="processed_file_about">
+    <span class="item_filename">
+      <p><%= link_to @processed_file.name, new_processed_file_path %></p>
+    </span>
+      <span class="item_snippet">
+        <p><strong>Texti:</strong> <%= @processed_file.snippet %></p>
+    </span>
+      <span class="item">
+      <p>Textagerð: <strong><%=@processed_file.text_type %></strong></p>
+    </span>
 
-  <li><%= link_to "Eyða", processed_file_path(@processed_file), data: {
-    turbo_method: :delete,
-    turbo_confirm: "Ertu viss?"
-  }%></li>
-</ul>
+      <span class="item">
+      <%= button_to "Eyða skrá", processed_file_path(@processed_file), method: :delete, class: "btn btn--secondary" %>
+    </span>
+  <% end %>
+  </div>
+</main>

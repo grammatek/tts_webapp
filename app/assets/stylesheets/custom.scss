@@ -1,18 +1,22 @@
-h1 {
-  color: #B00100;
-}
+/*h1 {
+  //color: #B00100;
+  color: #FF5035;
+}*/
 
 .intro {
   text-align: center;
   margin-top: 100px;
 }
 
-.dropzone {
+.dropzone,
+.dz-msg,
+.dz-preview {
   margin-top: 50px;
   margin-left: 100px;
   margin-right: 100px;
   margin-bottom: 20px;
 }
+
 
 .dropdown {
   margin-left: 100px;
@@ -23,12 +27,8 @@ h1 {
   margin-left: 10px;
 }
 
-.submit {
+.submit_div {
   text-align: center;
-}
-.submit_button {
-  background-color: aquamarine;
-  padding: 10px;
 }
 
 .db-title {

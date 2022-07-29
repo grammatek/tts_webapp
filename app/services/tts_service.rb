@@ -13,19 +13,29 @@ class TtsService < ApplicationService
     if valid?(text4json)
       @request_data = init_request_data(text, format)
       @audio_out = @@tmp_audio_path + filename + ".mp3"
+    else
+      raise StandardError, "Input text is too long! Max #{@@max_chars} allowed in input file!"
     end
   end
 
   def call
     p "===================== Calling TTS ======================="
-    conn = Faraday.new(
-      url: @@tts_url,
-      headers: {'Content-Type' => 'application/json'}
-    )
-    response = conn.post('', @request_data)
-    write_audio(response)
-    p "Successful? #{response.status}"
-    @audio_out
+    begin
+      conn = Faraday.new(
+        url: @@tts_url,
+        headers: {'Content-Type' => 'application/json'}
+      )
+      response = conn.post('', @request_data)
+      write_audio(response)
+      p "Successful? #{response.status}"
+      @audio_out
+    rescue Faraday::ConnectionFailed => e
+      raise e
+    rescue Faraday::ServerError => e
+      raise e
+    rescue Faraday::ClientError => e
+      raise e
+    end
   end
 
 private
@@ -48,7 +58,6 @@ private
 
   def valid?(text)
     if text.length > @@max_chars
-      p "Input text is too long! Max #{@@max_chars} allowed in input file!"
       return false
     end
     true

@@ -1,0 +1,91 @@
+.btn {
+  display: inline-block;
+  padding: var(--space-xxs) var(--space-m);
+  border-radius: var(--border-radius);
+  background-origin: border-box; // Invisible borders with linear gradients
+  background-color: transparent;
+  border: solid 2px transparent;
+  font-weight: bold;
+  font-size: var(--font-size-l);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: filter 400ms, color 200ms;
+
+  &:hover,
+  &:focus,
+  &:focus-within,
+  &:active {
+    transition: filter 250ms, color 200ms;
+  }
+
+  &:disabled {
+    background-color: #9bd2a1;
+    color: var(--color-light);
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      background-color: #9bd2a1;
+      color: var(--color-light);
+    }
+  }
+
+  &--primary {
+    color: var(--color-white);
+    //background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
+    background-color: var(--color-tertiary);
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active,
+    &:not(:disabled) {
+      color: var(--color-white);
+      filter: saturate(1.4) brightness(115%);
+    }
+    &:disabled {
+      background-color: #9bd2a1;
+      color: var(--color-light);
+      cursor: not-allowed;
+    }
+  }
+
+  &--secondary {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      color: var(--color-white);
+      filter: saturate(1.2) brightness(110%);
+    }
+  }
+
+  &--light {
+    color: var(--color-dark);
+    background-color: var(--color-light);
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      color: var(--color-dark);
+      filter: brightness(92%);
+    }
+  }
+
+  &--dark {
+    color: var(--color-white);
+    border-color: var(--color-dark);
+    background-color: var(--color-dark);
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      color: var(--color-white);
+    }
+  }
+}
