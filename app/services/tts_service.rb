@@ -1,11 +1,15 @@
 require 'json'
 require 'faraday'
 
+# TTS-Service connects to an external TTS-service, sends a request and receives a response with generated speech
+# if successful. On failure exceptions are raised and are expected to be rescued by the calling class.
+
 class TtsService < ApplicationService
 
 @@tts_url = 'http://127.0.0.1:8000/v0/speech'
 # max chars allowed in input text (for now)
 @@max_chars = 10000
+# a directory where the response audio is written to as .mp3
 @@tmp_audio_path = "./app/assets/audio/"
 
   def initialize(text, format, filename)
@@ -19,7 +23,10 @@ class TtsService < ApplicationService
   end
 
   def call
-    p "===================== Calling TTS ======================="
+    # Calls the external TTS-service and writes the audio response to @audio_out, if successful,
+    # and returns @audio_out
+    # Raises exception on failure.
+    p "================= Calling TTS ====================="
     begin
       conn = Faraday.new(
         url: @@tts_url,
@@ -27,7 +34,7 @@ class TtsService < ApplicationService
       )
       response = conn.post('', @request_data)
       write_audio(response)
-      p "Successful? #{response.status}"
+      p "Response status TTS-service: #{response.status}"
       @audio_out
     rescue Faraday::ConnectionFailed => e
       raise e
@@ -41,6 +48,7 @@ class TtsService < ApplicationService
 private
 
   def init_request_data(text, format)
+    # The request data format as required by the currently used TTS-service.
     {"Engine": "standard",
      "LanguageCode": "is-IS",
      "OutputFormat": "mp3",
@@ -51,6 +59,8 @@ private
   end
 
   def preprocess(text)
+    # The text in the request has to be json-conform, and it cannot contain new-lines or tabs.
+    # Process the text accordingly before initializing the request.
     oneline_text = text.gsub('\n', ' ')
     oneline_text = oneline_text.gsub('\t', ' ')
     oneline_text.gsub('"', '\"')
