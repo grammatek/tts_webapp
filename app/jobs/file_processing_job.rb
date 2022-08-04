@@ -1,38 +1,62 @@
+# The FileProcessingJob manages the communication with the TTS-service. Extracts document content, sends it
+# with the appropriate arguments to the service and rescues whatever errors might occur during the
+# service call. Updates the ProcessedFile model either with an attached audio file (on success) or sets an
+# error message (when something goes wrong)
 
 class FileProcessingJob < ApplicationJob
   queue_as :default
 
+  # max length (in characters) of a text snippet to be presented in the view
+  @@max_snippet_length = 150
+
   def perform(file_id)
+    # The core job, prepare a call to the TTS-service, call the service, and store the generated audio if successful,
+    # manage error messages otherwise.
     begin
       @processed_file = ProcessedFile.find(file_id)
-      filename = @processed_file.text_file.filename
+      complete_text = prepare_processed_file
+      @processed_file.save!
 
-      if filename.to_s.ends_with?('.pdf')
-        file_content = extract_pdf(filename)
-      else
-        file_content = @processed_file.text_file.download
-      end
-      complete_text = ensure_utf8(file_content)
-      snippet = extract_snippet(complete_text)
-
-      p "Processing file: #{filename}, snippet: #{snippet}, type: #{@processed_file.text_type}"
-      @processed_file.name = filename
-      @processed_file.snippet = snippet
-      @processed_file.save
       format = get_format(@processed_file.text_type)
       audio_file = call_tts(complete_text, format, @processed_file.name)
-      p audio_file
+      logger.info("Created audio file: #{audio_file}")
+
       @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
       FileUtils.rm_f(audio_file)
+
     rescue StandardError => e
-      p "=================== ERROR: ====== #{e.inspect}"
+      logger.info(e.inspect)
       @processed_file.error_message = extract_error_message(e)
       @processed_file.save!
     end
+  end
 
+  def prepare_processed_file
+    # Extracts filename and the file content from the attached text-file; extracts the beginning of the
+    # file content as a short snippet to present in the view. Returns the complete text to process
+    filename = @processed_file.text_file.filename
+    file_content = get_file_content(filename)
+    complete_text = ensure_utf8(file_content)
+    snippet = extract_snippet(complete_text)
+
+    logger.info("Processing file: #{filename}, snippet: #{snippet}, type: #{@processed_file.text_type}")
+
+    @processed_file.name = filename
+    @processed_file.snippet = snippet
+    complete_text
+  end
+
+  def get_file_content(filename)
+    if filename.to_s.ends_with?('.pdf')
+      file_content = extract_pdf(filename)
+    else
+      file_content = @processed_file.text_file.download
+    end
+    file_content
   end
 
   def call_tts(text, format, filename)
+    # The TtsService.call() returns a path to an audio file on success
     begin
       TtsService.call(text, format, filename)
     rescue StandardError => e
@@ -47,8 +71,8 @@ class FileProcessingJob < ApplicationJob
   end
 
   def extract_snippet(text)
-    if text.length > 150
-      snippet = text[0, 150] + '[...]'
+    if text.length > @@max_snippet_length
+      snippet = text[0, @@max_snippet_length] + '[...]'
     else
       snippet = text
     end
@@ -86,6 +110,8 @@ class FileProcessingJob < ApplicationJob
 =end
 
   def extract_error_message(error_msg_obj)
+    # Returns a user friendly error message in Icelandic, depending on the type of error
+    # represented by error_msg_obj
     error_msg = error_msg_obj.inspect
     if error_msg.include?('Faraday::ConnectionFailed')
       extracted_msg = 'Villa: náði ekki sambandi við talgervilsþjón'
@@ -98,7 +124,7 @@ class FileProcessingJob < ApplicationJob
     else
       extracted_msg = 'Villa kom upp í vinnslu'
     end
-    p "=============== EXTRACTED MSG: #{extracted_msg}"
+    logger.info(extracted_msg)
     extracted_msg
   end
 end

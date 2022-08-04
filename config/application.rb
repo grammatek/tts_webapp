@@ -21,6 +21,6 @@ module TtsWebapp
     config.encoding = "utf-8"
     config.active_job.queue_adapter = :sidekiq
     #config.active_job.queue_name_prefix = Rails.env
-
+    config.logger = Logger.new(STDOUT)
   end
 end

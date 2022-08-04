@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  snippet: MyText
+  name: TestFile1
+  snippet: Start of testfile1
+  text_type: 0
 
 two:
-  name: MyString
-  snippet: MyText
+  name: TestFile2
+  snippet: Start of testfile2
+  text_type: 1
