@@ -5,8 +5,12 @@ require 'faraday'
 # if successful. On failure exceptions are raised and are expected to be rescued by the calling class.
 
 class TtsService < ApplicationService
+  # sdf
+  # TODO: make configurable
+  #@@tts_url = 'http://127.0.0.1:8000/v0/speech'
 
-@@tts_url = 'http://127.0.0.1:8000/v0/speech'
+@@tts_url = 'https://api.grammatek.com/tts/v0/speech'
+
 # max chars allowed in input text (for now)
 @@max_chars = 10000
 # a directory where the response audio is written to as .mp3
@@ -16,7 +20,7 @@ class TtsService < ApplicationService
     text4json = preprocess(text)
     if valid?(text4json)
       @request_data = init_request_data(text, format)
-      @audio_out = @@tmp_audio_path + filename + ".mp3"
+      @audio_out = compose_audio_filename(filename)
     else
       raise StandardError, "Input text is too long! Max #{@@max_chars} allowed in input file!"
     end
@@ -33,6 +37,9 @@ class TtsService < ApplicationService
         headers: {'Content-Type' => 'application/json'}
       )
       response = conn.post('', @request_data)
+      if response and response.status >= 500
+        raise Faraday::ServerError.new('server error', response)
+      end
       write_audio(response)
       p "Response status TTS-service: #{response.status}"
       @audio_out
@@ -64,6 +71,11 @@ private
     oneline_text = text.gsub('\n', ' ')
     oneline_text = oneline_text.gsub('\t', ' ')
     oneline_text.gsub('"', '\"')
+  end
+
+  def compose_audio_filename(filename)
+    file_base = File.basename(filename, ".*")
+    @@tmp_audio_path + file_base + ".mp3"
   end
 
   def valid?(text)

@@ -25,7 +25,9 @@
   </span>
   <span class="item">
   <% if processed_file.audio_file.attached? %>
-    <audio id="player" controls src=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %>></audio>
+    <audio id="player" controls>
+      <source src=<%= rails_blob_path(processed_file.audio_file, disposition: 'attachment') %> type="audio/mp3"></source>
+    </audio>
   <% else %>
     <span class="item">
       <%= button_to "Hætta við", processed_file_path(processed_file), method: :delete, class: "btn btn--secondary" %>

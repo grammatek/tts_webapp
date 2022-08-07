@@ -60,6 +60,10 @@ gem "bootstrap", "~> 5.2"
 gem 'pdf-reader'
 gem 'docx'
 
+gem 'aws-sdk-core'
+gem 'aws-sdk-s3'
+
+gem 'rack-cors'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
