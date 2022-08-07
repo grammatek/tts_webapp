@@ -1,0 +1,72 @@
+version: '3'
+
+volumes:
+  postgres_data: {}
+  redis_data: {}
+
+services:
+  app_tts:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    image: registry.gitlab.com/grammatek/tts/tts_webapp/app:${APPLICATION_VERSION:-latest}
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - backend
+
+  db:
+    image: postgres:11
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  redis:
+    image: redis:7.0
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/var/lib/redis/data
+    networks:
+      - backend
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile.sidekiq
+    image: registry.gitlab.com/grammatek/tts/tts_webapp/sidekiq:${APPLICATION_VERSION:-latest}
+    command: bundle exec sidekiq
+    depends_on:
+      - redis
+      - db
+    env_file:
+      - .env
+    networks:
+      - backend
+
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    image: registry.gitlab.com/grammatek/tts/tts_webapp/web:${APPLICATION_VERSION:-latest}
+    depends_on:
+      - app_tts
+    links:
+      # app accesses app_tts container as app
+      - app_tts:app
+    expose:
+      - "8080"
+    networks:
+      - backend
+      - default
+
+networks:
+  default:
+    external:
+      name: production_docker-network
+  backend:
+    driver: bridge
