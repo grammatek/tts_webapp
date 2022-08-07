@@ -21,6 +21,21 @@ module TtsWebapp
     config.encoding = "utf-8"
     config.active_job.queue_adapter = :sidekiq
     #config.active_job.queue_name_prefix = Rails.env
-    config.logger = Logger.new(STDOUT)
+    # for development:
+    Rails.application.config.hosts.clear
+    #Rails.application.config.hosts << "final-url.com"
+
+    # Cors settings
+    # Reference: https://github.com/cyu/rack-cors
+    #config.middleware.insert_before 0, Rack::Cors do
+    #  allow do
+    #    origins '*'
+    #    resource '*', headers: :any, methods: [:get, :post, :put, :options]
+    #  end
+    #end
+
+    logger = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 end
