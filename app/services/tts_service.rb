@@ -16,10 +16,10 @@ class TtsService < ApplicationService
 # a directory where the response audio is written to as .mp3
 @@tmp_audio_path = "./app/assets/audio/"
 
-  def initialize(text, format, filename)
+  def initialize(text, format, filename, duration)
     text4json = preprocess(text)
     if valid?(text4json)
-      @request_data = init_request_data(text, format)
+      @request_data = init_request_data(text, format, duration)
       @audio_out = compose_audio_filename(filename)
     else
       raise StandardError, "Input text is too long! Max #{@@max_chars} allowed in input file!"
@@ -54,11 +54,12 @@ class TtsService < ApplicationService
 
 private
 
-  def init_request_data(text, format)
+  def init_request_data(text, format, duration)
     # The request data format as required by the currently used TTS-service.
     {"Engine": "standard",
      "LanguageCode": "is-IS",
      "OutputFormat": "mp3",
+     "Duration": "#{duration}",
      "SampleRate": "22050",
      "TextType": "#{format}",
      "VoiceId": "Alfur",

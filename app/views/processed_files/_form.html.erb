@@ -12,6 +12,10 @@
     <%= form.label "Gerð textaskjals" %>
     <%= form.select :text_type, ProcessedFile.text_types.keys, selected: 'html', class: "dropdown_select", id: "dropdown_select" %>
   </div>
+  <div class="dropdown">
+    <%= form.label "Hraði (lægri tala = meiri hraði)" %>
+    <%= form.select :duration_val, ['0.8', '0.9', '1.0', '1.1', '1.2', '1.3', '1.4', '1.5'], selected: '1.0', class: "dropdown_select", id: "dropdown_select" %>
+  </div>
   <div class="submit_div">
     <%= form.submit 'Senda á talgervil', id: "submit", class: "submit btn btn--primary" %>
   </div>
