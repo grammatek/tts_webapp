@@ -18,7 +18,7 @@ class FileProcessingJob < ApplicationJob
       @processed_file.save!
 
       format = get_format(@processed_file.text_type)
-      audio_file = call_tts(complete_text, format, @processed_file.name, str(@processed_file.duration_val))
+      audio_file = call_tts(complete_text, format, @processed_file.name, @processed_file.duration_val.to_s)
       logger.info("Created audio file: #{audio_file}")
 
       @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
