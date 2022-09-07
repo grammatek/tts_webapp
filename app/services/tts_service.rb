@@ -36,7 +36,7 @@ class TtsService < ApplicationService
     text4json = preprocess(text)
     if valid?(text4json)
       @request_data = init_request_data(text, format, duration, voice_id)
-      @audio_out = compose_audio_filename(filename)
+      @audio_out = compose_audio_filename(filename, voice_id, duration)
     else
       raise StandardError, "Input text is too long! Max #{@@max_chars} allowed in input file!"
     end
@@ -90,9 +90,9 @@ private
     oneline_text.gsub('"', '\"')
   end
 
-  def compose_audio_filename(filename)
+  def compose_audio_filename(filename, voice_id, duration)
     file_base = File.basename(filename, ".*")
-    @@tmp_audio_path + file_base + ".mp3"
+    @@tmp_audio_path + file_base + "_" + voice_id + "_" + duration.to_s + ".mp3"
   end
 
   def valid?(text)
