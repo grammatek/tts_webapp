@@ -11,7 +11,7 @@ class TtsService < ApplicationService
 
   @@tts_url = 'https://api.grammatek.com/tts/v0/speech'
 
-@@voices_dict = {'Álfur' => 'Alfur',
+  @@voices_dict = {'Álfur' => 'Alfur',
                  'Álfur (v2)' => 'Alfur_v2',
                  'Diljá' => 'Dilja',
                  'Diljá (v2)' => 'Dilja_v2',
@@ -20,19 +20,19 @@ class TtsService < ApplicationService
                  'Karl' => 'Karl',
                  'Dóra' => 'Dora' }
 
-# max chars allowed in input text (for now)
-@@max_chars = 10000
-# a directory where the response audio is written to as .mp3
-@@tmp_audio_path = "./app/assets/audio/"
+  # max chars allowed in input text (for now)
+  @@max_chars = 10000
+  # a directory where the response audio is written to as .mp3
+  @@tmp_audio_path = "./app/assets/audio/"
 
   def initialize(text, format, filename, duration, voice)
     if @@voices_dict.key?(voice)
       voice_id = @@voices_dict[voice]
     else
       # Let's not make the whole thing break, but use a default voice
-      voice_id= "Alfur"
+      voice_id = "Alfur"
     end
-    p "=================== USING VOICE: #{voice_id} ======================"
+    Rails.logger.debug "=================== USING VOICE: #{voice_id} ======================"
     text4json = preprocess(text)
     if valid?(text4json)
       @request_data = init_request_data(text, format, duration, voice_id)
