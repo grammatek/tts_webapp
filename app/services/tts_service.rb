@@ -9,18 +9,34 @@ class TtsService < ApplicationService
   # TODO: make configurable
   #@@tts_url = 'http://127.0.0.1:8000/v0/speech'
 
-@@tts_url = 'https://api.grammatek.com/tts/v0/speech'
+  @@tts_url = 'https://api.grammatek.com/tts/v0/speech'
 
-# max chars allowed in input text (for now)
-@@max_chars = 10000
-# a directory where the response audio is written to as .mp3
-@@tmp_audio_path = "./app/assets/audio/"
+  @@voices_dict = {'Álfur' => 'Alfur',
+                 'Álfur (v2)' => 'Alfur_v2',
+                 'Diljá' => 'Dilja',
+                 'Diljá (v2)' => 'Dilja_v2',
+                 'Bjartur' => 'Bjartur',
+                 'Rósa' => 'Rosa',
+                 'Karl' => 'Karl',
+                 'Dóra' => 'Dora' }
 
-  def initialize(text, format, filename)
+  # max chars allowed in input text (for now)
+  @@max_chars = 10000
+  # a directory where the response audio is written to as .mp3
+  @@tmp_audio_path = "./app/assets/audio/"
+
+  def initialize(text, format, filename, duration, voice)
+    if @@voices_dict.key?(voice)
+      voice_id = @@voices_dict[voice]
+    else
+      # Let's not make the whole thing break, but use a default voice
+      voice_id = "Alfur"
+    end
+    Rails.logger.debug "=================== USING VOICE: #{voice_id} ======================"
     text4json = preprocess(text)
     if valid?(text4json)
-      @request_data = init_request_data(text, format)
-      @audio_out = compose_audio_filename(filename)
+      @request_data = init_request_data(text, format, duration, voice_id)
+      @audio_out = compose_audio_filename(filename, voice_id, duration)
     else
       raise StandardError, "Input text is too long! Max #{@@max_chars} allowed in input file!"
     end
@@ -54,14 +70,15 @@ class TtsService < ApplicationService
 
 private
 
-  def init_request_data(text, format)
+  def init_request_data(text, format, duration, voice)
     # The request data format as required by the currently used TTS-service.
     {"Engine": "standard",
      "LanguageCode": "is-IS",
      "OutputFormat": "mp3",
+     "Duration": "#{duration}",
      "SampleRate": "22050",
      "TextType": "#{format}",
-     "VoiceId": "Alfur",
+     "VoiceId": "#{voice}",
      "Text": "#{text}"}.to_json
   end
 
@@ -73,9 +90,9 @@ private
     oneline_text.gsub('"', '\"')
   end
 
-  def compose_audio_filename(filename)
+  def compose_audio_filename(filename, voice_id, duration)
     file_base = File.basename(filename, ".*")
-    @@tmp_audio_path + file_base + ".mp3"
+    @@tmp_audio_path + file_base + "_" + voice_id + "_" + duration.to_s + ".mp3"
   end
 
   def valid?(text)

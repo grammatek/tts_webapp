@@ -18,7 +18,8 @@ class FileProcessingJob < ApplicationJob
       @processed_file.save!
 
       format = get_format(@processed_file.text_type)
-      audio_file = call_tts(complete_text, format, @processed_file.name)
+      audio_file = call_tts(complete_text, format, @processed_file.name, @processed_file.duration_val.to_s,
+                            @processed_file.voice)
       logger.info("Created audio file: #{audio_file}")
 
       @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
@@ -55,10 +56,10 @@ class FileProcessingJob < ApplicationJob
     file_content
   end
 
-  def call_tts(text, format, filename)
+  def call_tts(text, format, filename, duration, voice)
     # The TtsService.call() returns a path to an audio file on success
     begin
-      TtsService.call(text, format, filename)
+      TtsService.call(text, format, filename, duration, voice)
     rescue StandardError => e
       raise e
     end

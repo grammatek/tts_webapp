@@ -66,6 +66,6 @@ class ProcessedFilesController < ApplicationController
   end
 
   def file_params
-    params.require(:processed_file).permit(:name, :snippet, :text_file, :text_type)
+    params.require(:processed_file).permit(:name, :snippet, :text_file, :text_type, :duration_val, :voice)
   end
 end
