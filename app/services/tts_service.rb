@@ -77,7 +77,7 @@ private
      "OutputFormat": "mp3",
      "Duration": "#{duration}",
      "SampleRate": "22050",
-     "TextFormat": "#{format}",
+     "TextType": "#{format}",
      "VoiceId": "#{voice}",
      "Text": "#{text}"}.to_json
   end
