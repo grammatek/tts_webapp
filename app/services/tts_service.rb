@@ -8,7 +8,6 @@ class TtsService < ApplicationService
   # sdf
   # TODO: make configurable
   #@@tts_url = 'http://127.0.0.1:8000/v0/speech'
-
   @@tts_url = 'https://api.grammatek.com/tts/v0/speech'
 
   @@voices_dict = {'Álfur' => 'Alfur',
@@ -22,8 +21,17 @@ class TtsService < ApplicationService
 
   # max chars allowed in input text (for now)
   @@max_chars = 10000
-  # a directory where the response audio is written to as .mp3
-  @@tmp_audio_path = "./app/assets/audio/"
+
+  # a directory where the response audio is written to. This file only exists for the lifetime
+  # of the file_processing job and therefore cannot access e.g. Rails.root.
+  # We therefore use a path that will always exist on all platforms
+  @@tmp_audio_path = "#{Dir.tmpdir}/audios"
+
+  # Prepare the path for downloaded TTS audio files.
+  # Create it, if it doesn't exist
+  def prepare_asset_path
+    FileUtils.mkdir_p @@tmp_audio_path unless Dir.exist? @@tmp_audio_path
+  end
 
   def initialize(text, format, filename, duration, voice)
     if @@voices_dict.key?(voice)
@@ -32,7 +40,8 @@ class TtsService < ApplicationService
       # Let's not make the whole thing break, but use a default voice
       voice_id = "Alfur"
     end
-    Rails.logger.debug "=================== USING VOICE: #{voice_id} ======================"
+    prepare_asset_path
+    Rails.logger.info "=================== USING VOICE: #{voice_id} ======================"
     text4json = preprocess(text)
     if valid?(text4json)
       @request_data = init_request_data(text, format, duration, voice_id)

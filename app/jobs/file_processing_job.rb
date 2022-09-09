@@ -22,7 +22,7 @@ class FileProcessingJob < ApplicationJob
                             @processed_file.voice)
       logger.info("Created audio file: #{audio_file}")
 
-      @processed_file.audio_file.attach(io: File.open(Rails.root.join(audio_file)), filename: File.basename(audio_file))
+      @processed_file.audio_file.attach(io: File.open(audio_file), filename: File.basename(audio_file))
       FileUtils.rm_f(audio_file)
 
     rescue StandardError => e
