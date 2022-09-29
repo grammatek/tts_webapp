@@ -5,10 +5,8 @@ require 'faraday'
 # if successful. On failure exceptions are raised and are expected to be rescued by the calling class.
 
 class TtsService < ApplicationService
-  # sdf
   # TODO: make configurable
-  #@@tts_url = 'http://127.0.0.1:8000/v0/speech'
-  @@tts_url = 'https://api.grammatek.com/tts/v0/speech'
+  @@tts_url = '<your/service/connection>'
 
   @@voices_dict = {'Álfur' => 'Alfur',
                  'Álfur (v2)' => 'Alfur_v2',
