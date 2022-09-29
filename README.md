@@ -14,6 +14,31 @@ Access to a REST-ful TTS-web service
 
 Access to a storage service like Amazon S3, Google GCS, AzureStorage or similar.
 
+## Setup
+
+If you have Ruby and Rails installed, you can have a look at how the application looks like without having a connection 
+to a TTS-service or a storage servie:
+
+```
+$ git clone git@github.com:grammatek/tts_webapp.git
+$ cd tts_webapp
+$ bin/rails db:migrate
+$ bin/rails server
+```
+
+Now you should see the application under localhost:3000: `http://127.0.0.1:3000/`
+
+<img src=".github/images/app_screenshot.png">
+
+To use the application, you need to hava access to the above mentioned services. 
+Add your TTS-service URL in [tts_service.rb](https://github.com/grammatek/tts_webapp/blob/master/app/services/tts_service.rb)
+`@@tts_url = <your/tts/service/url>`
+
+On how to create and add Amazon S3 access, see e.g. https://www.honeybadger.io/blog/rails-app-aws-s3/, and on how to manage
+and secure Amazon Access Keys in a Rails App: https://medium.com/swlh/securing-keys-in-a-rails-app-bfa9a6394ca4
+
+
+
 ## Contributing
 
 You can contribute to this project by forking it, creating a branch and opening a new
